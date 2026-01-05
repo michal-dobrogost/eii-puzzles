@@ -1,0 +1,1 @@
+Real eternity ii pieces from https://github.com/jwortmann/Eternity2Puzzles.jl/blob/main/pieces/e2pieces.txt to verify my pieces against. Modified with 16 16 first line to specify size and match format used by brendan.
