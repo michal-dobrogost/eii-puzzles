@@ -25,32 +25,32 @@ def blockColor(color, exceptColors):
 def blockTiles(tiles, exceptColors):
     return [[blockColor(c, exceptColors) for c in tile] for tile in tiles]
 
-def mapTiles(tiles, xColor, yColor):
-    return [[yColor if c == xColor else c for c in tile] for tile in tiles]
+def mapTiles(tiles, fromColor, toColor):
+    return [[toColor if c == fromColor else c for c in tile] for tile in tiles]
 
-def findMapping(xTiles, yTiles):
-    xColors = set(itertools.chain.from_iterable(xTiles))
-    yColors = set(itertools.chain.from_iterable(yTiles))
+def findMapping(fromTiles, toTiles):
+    fromColors = set(itertools.chain.from_iterable(fromTiles))
+    toColors = set(itertools.chain.from_iterable(toTiles))
     mapping = {}
 
-    for xColor in xColors:
-        target = sortedTiles(blockTiles(xTiles, [0, xColor]))
+    for fromColor in fromColors:
+        target = sortedTiles(blockTiles(fromTiles, [0, fromColor]))
         matches = {}
-        for yColor in yColors:
-            candidate = sortedTiles(blockTiles(yTiles, [0, yColor]))
-            if mapTiles(target, xColor, yColor) == candidate:
-                matches[yColor] = candidate
+        for toColor in toColors:
+            candidate = sortedTiles(blockTiles(toTiles, [0, toColor]))
+            if mapTiles(target, fromColor, toColor) == candidate:
+                matches[toColor] = candidate
         if len(matches) == 0:
-            eprint("No matches for xColor: " + str(xColor))
+            eprint("No matches for fromColor: " + str(fromColor))
             return None
         if len(matches) != 1:
-            eprint("Multiple (" + str(len(matches)) + ") matches for xColor: " + str(xColor))
+            eprint("Multiple (" + str(len(matches)) + ") matches for fromColor: " + str(fromColor))
             return None
-        yColor = list(matches.keys())[0]
-        if yColor in list(mapping.values()):
-            eprint("Multiple matches for yColor: " + str(yColor))
+        toColor = list(matches.keys())[0]
+        if toColor in list(mapping.values()):
+            eprint("Multiple matches for toColor: " + str(toColor))
             return None
-        mapping[xColor] = yColor
+        mapping[fromColor] = toColor
     return mapping
 
 if __name__ == "__main__":

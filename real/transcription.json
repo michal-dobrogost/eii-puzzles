@@ -1,4 +1,6 @@
 {
+    "rows": 16,
+    "cols": 16,
     "tiles": {
         "0": ["oran-pblu-circ", "pink-pblu-ship", "grey", "grey"],
         "1": ["oran-pblu-circ", "gree-dblu-nutt", "grey", "grey"],
