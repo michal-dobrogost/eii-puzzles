@@ -60,12 +60,13 @@ if __name__ == "__main__":
         prog = 'eii-gen',
         description = 'Generate an Eternity II puzzle. The border is color 0.')
 
+
     parser.add_argument('-r', '--rows', type=int, default=16)
     parser.add_argument('-c', '--cols', type=int, default=16)
     parser.add_argument('-cb', '--corner-border', type=int, default=4)
     parser.add_argument('-bb', '--border-border', type=int, default=5)
-    parser.add_argument('-bi', '--border-inside', type=int, default=16)
-    parser.add_argument('-ii', '--inside-inside', type=int, default=16)
+    parser.add_argument('-bi', '--border-inside', type=int, default=17)
+    parser.add_argument('-ii', '--inside-inside', type=int, default=17)
     parser.add_argument('-s', '--seed', type=int, default=0)
 
     args = parser.parse_args()
@@ -103,9 +104,13 @@ if __name__ == "__main__":
     while True:
         board = genBoard()
         tiles = list(itertools.chain.from_iterable(board))
-        if not hasDuplicateTiles(tiles) and not hasSymmetricTiles(tiles):
-            break
-        eprint('Regenerating due to:' + (' duplicates' if hasDuplicateTiles(board) else '') + (' symmetries' if hasSymmetricTiles(board) else ''))
+        if hasDuplicateTiles(tiles):
+            eprint('Regenerating due to duplicate tiles')
+            continue
+        if hasSymmetricTiles(tiles):
+            eprint('Regenerating due to symmetric tiles')
+            continue
+        break
 
     # Don't use json.dumps because it expands all arrays across multiple lines which is not readable.
     placedLocations = [(rows//2, (cols-1)//2), (2, 2), (2, cols - 3), (rows - 3, 2), (rows - 3, cols -3)]
