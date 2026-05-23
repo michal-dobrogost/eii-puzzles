@@ -22,6 +22,26 @@ def sortedTile(tile):
 def sortedTiles(tiles):
     return sorted([sortedTile(t) for t in tiles])
 
+def tilerotFromTile(tile, tiles):
+    """
+    >>> tilerotFromTile([1,2,3,4], [[0,0,0,0]]) is None
+    True
+    >>> tilerotFromTile([1,2,3,4], [[0,0,0,0],[1,2,3,4]])
+    4
+    >>> tilerotFromTile([2,3,4,1], [[0,0,0,0],[1,2,3,4]])
+    5
+    >>> tilerotFromTile([3,4,1,2], [[0,0,0,0],[1,2,3,4]])
+    6
+    >>> tilerotFromTile([4,1,2,3], [[0,0,0,0],[1,2,3,4]])
+    7
+    """
+    for iOther in range(len(tiles)):
+        for rot in range(4):
+            if tile == tileRotate(rot, tiles[iOther]):
+                return iOther * 4 + rot
+    return None
+
+
 def isTileSymmetric(tile):
     """
     >>> isTileSymmetric([1,2,3,4])

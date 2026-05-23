@@ -150,7 +150,7 @@ static int eiiPuzzlePrintJSON(EiiPuzzle puzzle, FILE* stream);
  */
 static int eiiNumEdgeConflicts(EiiPuzzle puzzle);
 
-/*
+/**
  * Rotate a tile counter-clockwise.
  *
  * @param rot The number of rotations to perform
@@ -158,7 +158,7 @@ static int eiiNumEdgeConflicts(EiiPuzzle puzzle);
  */
 static EiiTile eiiTileRotate(EiiTile x, int rot);
 
-/*
+/**
  * Rotate a tile to it's minimum lexicographic configuration.
  *
  * @param rot The number of rotations to perform
@@ -166,12 +166,15 @@ static EiiTile eiiTileRotate(EiiTile x, int rot);
  */
 static EiiTile eiiTileRotateToMin(EiiTile x);
 
-/*
+/**
  * Find the tilerot (4 * tile-id + rotation) of the given tile.
  *
  * @return The tilerot or -1 if not found.
  */
 static int eiiTilerotFromTile(EiiTile target, EiiTile const* tiles, int numTiles);
+
+/** Rotate a tilerot (ie. modify it's rot component while leaving the tile component). */
+static int eiiTilerotRotate(int tilerot, int rot);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -254,6 +257,12 @@ static int eiiTilerotFromTile(EiiTile target, const EiiTile* tiles, const int nu
     }
   }
   return -1;
+}
+
+static int eiiTilerotRotate(int tilerot, int rotation) {
+  const int tile = tilerot / 4;
+  const int rot = tilerot % 4;
+  return tile*4 + ((rot + rotation) % 4);
 }
 
 static int eiiJsonEq(const char *json, jsmntok_t *tok, const char *s) {
